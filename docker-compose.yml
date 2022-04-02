@@ -6,28 +6,14 @@ services:
     build: 
       context: ./app
     ports:
-      - "3000:3000"
+      - "3001:3001"
     volumes:
       - ./:/usr/src/app
     networks:
-      - rabbitmq_nodejs
+      - game_network
     env_file: ./app/.env
     depends_on:
       - mysqldb
-  
-  rabbitmq:
-    image: rabbitmq:3.8-management-alpine
-    container_name: 'rabbitmq_gameservice'
-    ports:
-        - "5673:5672"
-        - "15673:15672"
-    volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-    networks:
-        - rabbitmq_nodejs
-    env_file: ./app/.env
-
   mysqldb:
     image: mysql
     restart: always
@@ -38,28 +24,28 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - rabbitmq_nodejs
+      - game_network
     volumes: 
       - db-config:/etc/mysql
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
 
-  phpmyadmin:
-    image: phpmyadmin
-    restart: always
-    ports:
-      - 8080:80
-    networks:
-      - rabbitmq_nodejs
-    environment:
-      PMA_HOST: mysqldb
-      PMA_USER: root
-      PMA_PASSWORD: $MYSQL_ROOT_PASSWORD
-    env_file: ./app/.env
-    depends_on: 
-      - mysqldb
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   restart: always
+  #   ports:
+  #     - 8080:80
+  #   networks:
+  #     - game_network
+  #   environment:
+  #     PMA_HOST: mysqldb
+  #     PMA_USER: root
+  #     PMA_PASSWORD: $MYSQL_ROOT_PASSWORD
+  #   env_file: ./app/.env
+  #   depends_on: 
+  #     - mysqldb
 networks:
-  rabbitmq_nodejs:
+  game_network:
     driver: bridge
 
 volumes: 
