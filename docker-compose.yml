@@ -37,10 +37,27 @@ services:
       MYSQL_DATABASE: $MYSQL_DATABASE
     ports:
       - "3306:3306"
+    networks:
+      - rabbitmq_nodejs
     volumes: 
       - db-config:/etc/mysql
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    networks:
+      - rabbitmq_nodejs
+    environment:
+      PMA_HOST: mysqldb
+      PMA_USER: root
+      PMA_PASSWORD: $MYSQL_ROOT_PASSWORD
+    env_file: ./app/.env
+    depends_on: 
+      - mysqldb
 networks:
   rabbitmq_nodejs:
     driver: bridge
