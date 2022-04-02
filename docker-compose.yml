@@ -11,19 +11,40 @@ services:
       - ./:/usr/src/app
     networks:
       - rabbitmq_nodejs
+    env_file: ./app/.env
+    depends_on:
+      - mysqldb
   
   rabbitmq:
     image: rabbitmq:3.8-management-alpine
     container_name: 'rabbitmq_gameservice'
     ports:
-        - 5673:5672
-        - 15673:15672
+        - "5673:5672"
+        - "15673:15672"
     volumes:
         - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     networks:
         - rabbitmq_nodejs
+    env_file: ./app/.env
 
+  mysqldb:
+    image: mysql
+    restart: always
+    env_file: ./app/.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+    ports:
+      - "3306:3306"
+    volumes: 
+      - db-config:/etc/mysql
+      - db-data:/var/lib/mysql
+      - ./db/backup/files/:/data_backup/data
 networks:
   rabbitmq_nodejs:
     driver: bridge
+
+volumes: 
+  db-config:
+  db-data:
