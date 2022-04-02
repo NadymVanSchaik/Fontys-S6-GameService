@@ -1,0 +1,27 @@
+{
+  "name": "gameservice",
+  "version": "1.0.0",
+  "description": "Game service",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/nadymvschaik/game-service.git"
+  },
+  "author": "NMG van Schaik",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/nadymvschaik/game-service#readme",
+  "dependencies": {
+    "@rama41222/node-logger": "^1.0.1",
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
