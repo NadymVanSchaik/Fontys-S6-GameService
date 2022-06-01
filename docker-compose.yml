@@ -13,37 +13,23 @@ services:
       - game_network
     env_file: ./app/.env
     depends_on:
-      - mysqldb
-  mysqldb:
-    image: mysql
+      - mongo
+  mongo:
+    image: mongo
     restart: always
-    env_file: ./app/.env
     environment:
-      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
-      MYSQL_DATABASE: $MYSQL_DATABASE
-    ports:
-      - "3306:3306"
-    networks:
-      - game_network
-    volumes: 
-      - db-config:/etc/mysql
-      - db-data:/var/lib/mysql
-      - ./db/backup/files/:/data_backup/data
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
-  # phpmyadmin:
-  #   image: phpmyadmin
-  #   restart: always
-  #   ports:
-  #     - 8080:80
-  #   networks:
-  #     - game_network
-  #   environment:
-  #     PMA_HOST: mysqldb
-  #     PMA_USER: root
-  #     PMA_PASSWORD: $MYSQL_ROOT_PASSWORD
-  #   env_file: ./app/.env
-  #   depends_on: 
-  #     - mysqldb
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
 networks:
   game_network:
     driver: bridge
