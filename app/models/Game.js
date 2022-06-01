@@ -5,7 +5,7 @@ const GameSchema = mongoose.Schema({
     short_description: String,
     header_image: String,
     release_date: String,
-    steam_appid: Number,
+    last_updated: Date,
 })
 
-module.export = mongoose.model('Games, GameSchema')
+module.exports = mongoose.model('Game', GameSchema)
