@@ -27,10 +27,12 @@ jobs:
 
       # install application dependencies
       - name: Install dependencies
+        working-directory: ./app
         run: npm install
 
       # Test the apps     
       - name: test
+        working-directory: ./app
         run: npm run test
           
   build:
