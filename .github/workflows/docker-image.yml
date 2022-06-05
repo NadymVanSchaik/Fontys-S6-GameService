@@ -30,7 +30,7 @@ jobs:
         context: ./app
         push: true
         tags: index.docker.io/${{ secrets.DOCKER_HUB_USER_NAME }}/game-service:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./app/Dockerfile
         
         
 
