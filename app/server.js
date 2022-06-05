@@ -31,7 +31,13 @@ app.get('/', (req, res) => {
 
 
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECTION, () => console.log('connected to DB'))
+mongoose.connect(process.env.DB_CONNECTION) 
+.then(() =>{
+    console.log("connected to DB");
+})
+.catch(err => {
+    console.log(err)
+})
 
 //Get games from steam every 7 days
 /*var cron = require('node-cron');

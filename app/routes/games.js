@@ -11,12 +11,18 @@ var jsonParser = bodyParser.json();
 
 
 //Get all games
-router.get('/all', (req, res) => {
-    res.send('get all games');
+router.get('/all', async (req, res) => {
+    try{
+        const games = await Game.find({}).exec();
+        console.log(games)
+        res.json(games)
+    } catch(err){
+        res.json({message: err});
+    }
 });
 
 //Get Game information by ID
-router.get('/:id', async (req, res, next) => {
+router.get('/getById/:id', async (req, res, next) => {
     try{
         const game = await Game.findById(req.params.id).exec();
         console.log(game)
@@ -51,6 +57,7 @@ router.post('/', jsonParser, (req, res) => {
             res.json(data)
         })
         .catch(err => {
+            console.log(err)
             res.json({message: err})
         })
 })
