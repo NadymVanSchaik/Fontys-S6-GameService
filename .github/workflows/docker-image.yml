@@ -7,7 +7,32 @@ on:
     branches: [ "main" ]
 
 jobs:
+  
+  test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # install application dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Test the apps     
+      - name: test
+        run: npm run test
+          
   build:
 
     runs-on: ubuntu-latest
@@ -31,6 +56,9 @@ jobs:
         push: true
         tags: index.docker.io/${{ secrets.DOCKER_HUB_USER_NAME }}/game-service:${{ github.sha }}
         file: ./app/Dockerfile
+        
+
+
         
         
 
