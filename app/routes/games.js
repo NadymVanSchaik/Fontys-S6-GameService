@@ -9,10 +9,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var jsonParser = bodyParser.json();
 
+
+//Get all games
 router.get('/all', (req, res) => {
     res.send('get all games');
 });
 
+//Get Game information by ID
 router.get('/:id', async (req, res, next) => {
     try{
         const game = await Game.findById(req.params.id).exec();
@@ -23,10 +26,12 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+//Get all popular games
 router.get('/popular', (req, res) => {
     res.send('Get popular games');
 });
 
+//Get all new games
 router.get('/new', (req, res) => {
     res.send('Get new games');
 });
