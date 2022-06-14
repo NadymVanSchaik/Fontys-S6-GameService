@@ -56,7 +56,7 @@ jobs:
       with:
         context: ./app
         push: true
-        tags: index.docker.io/${{ secrets.DOCKER_HUB_USER_NAME }}/game-service:${{ github.sha }}
+        tags: index.docker.io/${{ secrets.DOCKER_HUB_USER_NAME }}/game-service:latest
         file: ./app/Dockerfile
         
 
